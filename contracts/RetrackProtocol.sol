@@ -12,11 +12,13 @@ contract RetrackProtocol is ERC20 {
         bool retracktable;
     }
 
-    struct RecieverInfo {
-        uint256 quantity;
-        SenderInfo [] senders;
+
+    struct expiringAmount{
+        uint256 amount;
+        uint expiry_date;
     }
-    mapping(address => RecieverInfo) private recipients;
+    
+    mapping(address => mapping (address => expiringAmount )) private recipients;
 
 
     event MoneyTransferred (address from, address to, uint256 amount);
@@ -31,19 +33,14 @@ contract RetrackProtocol is ERC20 {
     /// @dev Instead of sending money the contract sends equivalent number of tokens 
     //       that can be used to reedem the same amount of money 
     /// @param account account to transfer it to
-    function send (address account) public payable {
+    function send (address account, uint redeeming_period) public payable {
         require(msg.value > 0, "No money deposited");
-
-        SenderInfo sender_info =  SenderInfo(msg.sender, msg.value);
+        
         // Money even tho stored can't be pulled out before token is minted 
         // so no rentry attack can happen here between updating recipients and 
         // minting coin 
         
-        recipients[account].push(
-            RecieverInfo
-                (recipients[account].quantity + 1,
-                sender_info)
-            ); 
+        recipients[account][msg.sender] += expiringAmount(msg.value, block.timestamp + redeeming_period * 86400); 
         // Tokens are symbolic here, they can be used to trade right but they
         // are only symbolic, the system would work without tokens
         _mint(account, msg.value);
@@ -51,23 +48,58 @@ contract RetrackProtocol is ERC20 {
 
     }
 
-    function reedem (bool all, address from) public{
-        require(recipients[msg.sender].quantity > 0, "You don't have anything to be reedemed");
+    function reedem (address from, bool all, uint256 reedem_amount) public{
+        
+        uint256 amount = 0;
 
-        if (all) {
-            for (uint256 i = recipients[msg.sender].quantity; )
-            
+        if (all){           
+            amount = recipients[msg.sender][from]; 
+        }
+        else{
+            amount = reedem_amount;
         }
 
+        require(amount >= 0, "You don't have anything to withdraw");
+        require(recipients[msg.sender][from].amount >= amount, "You don't have this much amount from provided address");
+        require(block.timestamp <= recipients[msg.sender][from].expiry_date, "Reedming period has passed only sender can claim it now");
+        // This is to insure an invariant
+        require(balanceOf(msg.sender) >= amount, "You should have equivalent number of coins");
+
+        _burn(msg.sender, amount);
+        recipients[msg.sender][from].amount -= amount;
+        payable(msg.sender).transfer(amount);
+            
     }
 
-    function transferRight() public returns (bool){
+    function transferRight(address from, address to, uint256 amount, uint redeeming_period) public returns (bool){
+
+        require(recipients[msg.sender][from].amount >= amount, "You don't have this much amount from provided address");
+        require(balanceOf(msg.sender) >= amount, "You should have equivalent number of coins");
+        require(block.timestamp <= recipients[msg.sender][from].expiry_date, "you can't access this fund anymore contact your sender");
+
+
+        _transfer(msg.sender, to, amount);
+        recipients[msg.sender][from] -= amount;
+        recipients[to][msg.sender] += amount;
 
     }
 
    
 
-    function retrack (){}
+    function retrack (address from, uint356 amount){
+
+        // What is the best way to prevent conccurency problems where
+        // both retracker and reedemer try to withrdraw money forcing
+        // the system to send money twice
+        require(recipients[from][msg.sender].amount >= amount, "Address doesn't owe you this much! May be amount is redeemed");
+        require(balanceOf(from) >= amount, "Address already reedmed transfer");
+        require(recipients[from][msg.sender].expiry_date < block.timestamp, "Fund hasn't yet expired");
+
+        _burn(from, amount);
+        recipients[from][msg.sender].amount -= amount;
+       
+    }
+
 
     function transfer (
     address to, 
