@@ -11,13 +11,7 @@ import "OpenZeppelin/openzeppelin-contracts@4.0.0/contracts/token/ERC20/ERC20.so
 
 contract RetrackProtocol is ERC20 {
     
-    struct SenderInfo {
-        address sender;
-        uint256 amount;
-        bool retracktable;
-    }
-
-
+   
     struct expiringAmount{
         uint256 amount;
         uint expiry_date;
@@ -62,7 +56,6 @@ contract RetrackProtocol is ERC20 {
     /// @return status true on sucess
     function redeem (address from, uint256 redeem_amount) public returns(bool){
         
-      
         require(redeem_amount >= 0, "You don't have anything to withdraw");
         require(recipients[msg.sender][from].amount >= redeem_amount, "You don't have this much redeem_amount from provided address");
         require(block.timestamp <= recipients[msg.sender][from].expiry_date, "Reedming period has passed only sender can claim it now");
@@ -108,12 +101,18 @@ contract RetrackProtocol is ERC20 {
 
         require(recipients[from][msg.sender].amount >= amount, "Address doesn't owe you this much! May be amount is redeemed");
         require(balanceOf(from) >= amount, "Address already reedmed transfer");
-        require(recipients[from][msg.sender].expiry_date < block.timestamp, "Fund hasn't yet expired");
+        // There is one day period before expiray and retraction to prevent race conditions
+        // This time must be updated if the maximum execution time of a block grows longer than a day
+        require(recipients[from][msg.sender].expiry_date + 86400 < block.timestamp, "Fund hasn't yet expired");
 
         _burn(from, amount);
         recipients[from][msg.sender].amount =  recipients[from][msg.sender].amount - amount;
         return true;
        
+    }
+
+    function checkAccount(address from) public view returns(uint256){
+        return recipients[msg.sender][from];
     }
 
 
