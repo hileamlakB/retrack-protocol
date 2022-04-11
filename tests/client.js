@@ -1,8 +1,15 @@
 document.body.querySelector("#check_status").addEventListener( 'click', check_status);
 let recieved_monies = document.body.querySelector(".recieved_moneys");
 
+
+
 function upddate_state(from, amount){
+
+    
     let redeem_div = `
+    <script type="text/javascript"> 
+        async 
+    </script>
     <div class="reedem-card">
 
     <span>From <p id="sender_address">${from}</p></span>
@@ -12,7 +19,14 @@ function upddate_state(from, amount){
             <input type="input" class="form__field" name="redeem_amount" id='redeem_amount' value="${amount}" required />
             <label for="redeem_amount" class="form__label">Reedem amount</label>
         </div>
-        <button class="action__btn" id="reedem">Redeem</button>
+        <button class="action__btn" id="reedem" onclick="(()=>{
+            async function reedem(){
+                const tx = await RetrackProtocol.redeem('${from}', ethers.utils.parseEther('${amount}'));
+                console.log(tx);
+            }
+            reedem()
+
+        })()">Redeem</button>
     </div>
     
  </div>
@@ -39,7 +53,7 @@ async function check_status(){
 
    RetrackProtocol.on(filter, (event) => {let {amount, from} = event.args; upddate_state(from, ethers.utils.formatEther(amount._hex))});
 
-
+    console.log(events)
 }
 
 // update_temp(client_msg, "No recieved history", 200000);

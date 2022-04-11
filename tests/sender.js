@@ -31,6 +31,7 @@ async function connect(){
             const addressArray = await window.ethereum.request({
               method: "eth_requestAccounts",
             });
+            console.log(addressArray)
             address_output.innerHTML =  addressArray[0]
             connected_address = addressArray[0]
            
@@ -42,7 +43,7 @@ async function connect(){
     }
     
     const addressArray = await ethereum.request({
-            method: "eth_accounts",});
+            method: "eth_requestAccounts",});
 
     address_output.innerHTML =  addressArray[0]
     connected_address = addressArray[0]
