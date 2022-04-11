@@ -1,0 +1,132 @@
+
+
+$primary: #11998e;
+$secondary: #38ef7d;
+$white: #fff;
+$gray: #9b9b9b;
+
+* {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.sending-card{
+    // border-radius: 10px;
+    box-shadow: -4px 3px 7px 0px rgb(17, 153, 142);
+    padding:2px;
+    // background: linear-gradient(to right, $primary, $secondary);
+
+    h1{
+        color:$primary
+    }
+
+}
+.calm_msg{
+    margin-left: 10px;
+    color: #11998e;
+    max-width: 320px;
+    font-size: 0.8rem;
+}
+
+.inner-card{
+    padding: 100px;
+    background: white;
+    box-shadow: 6px -6px 3px 0px #38ef7d42;
+}
+
+.form{
+    .form__inputs{
+        min-width: 300px;
+    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+//   border-bottom: 2px solid $gray;
+  outline: 0;
+  color: $primary;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+  
+    cursor: text;
+    top: 20px;
+  }
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: $gray;
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: $primary;
+  }
+  padding-bottom: 6px;
+  border-width: 3px;
+  border-image: linear-gradient(to right, $primary, $secondary);
+  border-image-slice: 1;
+}
+/* reset input */
+.form__field {
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
+}
+
+.action__btn{
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: $primary;
+    border: none;
+    border-radius: 5px;
+
+    &:hover{
+        color: $primary;
+        background-color: white;
+        border:1px solid $primary;
+    
+    }
+}
+
+#warning{
+  color:#c5092c;
+}

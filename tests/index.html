@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>sender_side</title>
+</head>
+<body>
+
+    <div class="sending-card">
+        <div class="inner-card">
+            <h1>Transfer money</h1>
+           
+            
+           
+            <div class="form">
+
+                <div class="form__inputs">
+                    <div class="form__group field">
+                        <input type="input" class="form__field" placeholder=">Current balance:" name="cbalance" id='cbalance' value="0" disabled />
+                        <label for="cbalance" class="form__label">Current Balance</label>
+                    </div>
+    
+                    <div class="form__group field">
+                        <input type="input" class="form__field" placeholder="To" name="to" id='to' required />
+                        <label for="to" class="form__label">To</label>
+                    </div>
+                    
+                    <div class="form__group field">
+                        <input type="input" class="form__field" placeholder="Amount" name="amount" id='amount' required />
+                        <label for="amount" class="form__label">Amount</label>
+                    </div>
+
+                    <div class="form__group field">
+                        <input type="input" class="form__field" value="10" name="claim_period" id='claim_period' required />
+                        <label for="claim_period" class="form__label">Claim period</label>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="action__btn" id="connect">Connect</button>
+                    <button class ="action__btn" id="send">Send</button>
+                    <p id="connected_address"></p>
+                    <p id="network"></p>
+                    <p id="warning"></p>
+
+                
+                </div>
+               
+            
+            </div>
+
+            <br />
+            <br />
+            <p class="calm_msg">Don't worry if you send it to a dead account, you can always resend!!</p>
+
+
+            <h1>Recieve money</h1>
+            <div class="recieved_moneys">
+                <p id="client_msg"></p>
+
+            </div>
+            
+        
+            
+        </div>
+    </div>
+    <script src="contract.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+    type="application/javascript"></script>
+    <script type="text/javascript" src="sender.js"></script>
+    <script type="text/javascript" src="client.js"></script>
+</body>
+</html>
