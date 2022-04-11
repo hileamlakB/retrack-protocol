@@ -85,7 +85,7 @@ contract RetrackProtocol is ERC20 {
 
         _transfer(msg.sender, to, amount);
         recipients[msg.sender][from].amount = recipients[msg.sender][from].amount - amount;
-        recipients[to][msg.sender] = expiringAmount(recipients[msg.sender][from].amount + amount, block.timestamp + redeeming_period * 86400);
+        recipients[to][msg.sender] = expiringAmount(recipients[to][msg.sender].amount + amount, block.timestamp + redeeming_period * 86400);
         return true;
 
     }
@@ -107,12 +107,14 @@ contract RetrackProtocol is ERC20 {
 
         _burn(from, amount);
         recipients[from][msg.sender].amount =  recipients[from][msg.sender].amount - amount;
+        // send back deposited money
+        payable(msg.sender).transfer(amount);
         return true;
        
     }
 
-    function checkAccount(address from) public view returns(uint256){
-        return recipients[msg.sender][from];
+    function checkAccount(address from) public view returns(uint256, uint){
+        return (recipients[msg.sender][from].amount, recipients[msg.sender][from].expiry_date) ;
     }
 
 
