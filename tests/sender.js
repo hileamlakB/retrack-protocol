@@ -2,6 +2,7 @@ document.body.querySelector("#connect").addEventListener('click', connect);
 document.body.querySelector("#send").addEventListener('click', send);
 
 provider = null
+signer = null
 
 let cbalance = document.body.querySelector("#cbalance");
 let to = document.body.querySelector("#to");
@@ -80,7 +81,7 @@ async function send(){
         return;
     }
 
-    if (network !== 3){
+    if (network !== 1666700000){
         update_temp(warning_area, 
             `WARNING: Test program is currently only ment to be used on 
             ropsten network, dont loose your money change your network`);
@@ -99,17 +100,8 @@ async function send(){
 
 
     
-    const data = RetrackProtocol.methods.send(to.value, parseInt(claim_period.value)).encodeABI();
-    const transactionParameters = {
-      to: RetrackProtocol_address, 
-      from: connected_address, 
-      'value': web3.utils.toWei(parseFloat(amount.value)),
-      'data':data
-      };
-  
-    return web3.eth.sendTransaction(transactionParameters)
-    .then(response=>response)
-    .catch(error=>error)  
+    const tx = await RetrackProtocol.send(to.value, parseInt(claim_period.value), { 'value': ethers.utils.parseEther(amount.value)});
+    console.log(tx)
 }
      
 // What if we free the blockchain from the internate
