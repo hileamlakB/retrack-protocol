@@ -130,3 +130,35 @@ body{
 #warning{
   color:#c5092c;
 }
+
+.reedem-card{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+  padding: 10px;
+border-radius: 5px;
+color: white;
+margin: 10px;
+width:100%;
+
+  #sender_address{
+  display: inline;
+  }
+.form__label{
+  color: white;
+}
+
+  .redeem-group{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #reedem{
+    margin:10px;
+    padding: 10px;
+  }
+  #reedem:hover{
+    background: transparent;
+  }
+}

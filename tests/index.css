@@ -151,4 +151,49 @@ body {
 #warning {
   color: #c5092c;
 }
+
+.reedem-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: -webkit-gradient(linear, left top, right top, from(#d53369), to(#daae51));
+  background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  margin: 10px;
+  width: 100%;
+}
+
+.reedem-card #sender_address {
+  display: inline;
+}
+
+.reedem-card .form__label {
+  color: white;
+}
+
+.reedem-card .redeem-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.reedem-card #reedem {
+  margin: 10px;
+  padding: 10px;
+}
+
+.reedem-card #reedem:hover {
+  background: transparent;
+}
 /*# sourceMappingURL=index.css.map */

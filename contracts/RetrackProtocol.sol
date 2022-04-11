@@ -8,6 +8,7 @@ import "OpenZeppelin/openzeppelin-contracts@4.0.0/contracts/token/ERC20/ERC20.so
 // TODO
 // Expand this protocol for other tokens as well on top of native currency 
 // Add grace period even before the reedeming period
+// Should reedem be all/or is the option of some good
 
 contract RetrackProtocol is ERC20 {
     
