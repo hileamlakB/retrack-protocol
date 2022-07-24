@@ -18,8 +18,7 @@ How the retrack protocol works: When a user chooses to pay with retrack, they pa
 ## Test version
 
 Here is a demo of the protocol on testnet. 
-[![Alt text](https://img.youtube.com/vi/VID/0.jpg)](https://www.youtube.com/watch?v=VID)
-<video src="https://www.youtube.com/watch?v=BhCPNMv85m0" width=180/>
+[video](https://www.youtube.com/watch?v=BhCPNMv85m0)
 
 
 ## Setup
